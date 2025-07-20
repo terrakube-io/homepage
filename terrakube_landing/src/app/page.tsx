@@ -1,5 +1,4 @@
 import Image from "next/image";
-import DecorativeDots from './DecorativeDots';
 
 export default function Home() {
   return (
@@ -21,7 +20,6 @@ export default function Home() {
             <p>No vendor lock-in, No licensing headache, Self Hosted</p>
             <p>anywhere you want from cloud to on premises</p>
           </div>
-          <DecorativeDots position="top-right-relative" />
         </div>
 
         <hr className="border-t-2 border-gray-300 my-20 w-[400px] mx-auto" />
