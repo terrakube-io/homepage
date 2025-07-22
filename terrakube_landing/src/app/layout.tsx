@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Terrakube",
   description: "Terrakube",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -29,11 +32,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <PatronBackground position="top" logoOpacity={0.9}  logoSize={700} ></PatronBackground>
+        <PatronBackground position="top" logoOpacity={0.9} logoSize={700} ></PatronBackground>
         <Encabezado />
 
-      {children}
-    </body>
+        {children}
+      </body>
     </html >
   );
 }

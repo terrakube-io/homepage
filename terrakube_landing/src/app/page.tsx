@@ -1,6 +1,7 @@
 import Image from "next/image";
 import LogoBackground from "./LogoBackground";
 import PatronBackground from './PatronBackground';
+import PointBackground from "./PointBackground";
 
 
 export default function Home() {
@@ -15,9 +16,12 @@ export default function Home() {
 
 
         <LogoBackground position="left" logoOpacity={1} logoSize={200} verticalPosition="30vh" />
-        <PatronBackground position="left" logoOpacity={0.4} logoSize={600} verticalPosition="70vh" />
+        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition="30vh" />
 
-        <PatronBackground position="right" logoOpacity={0.4} logoSize={1400} verticalPosition="190vh" />
+
+        <PatronBackground position="left" logoOpacity={0.4} logoSize={900} verticalPosition="100vh" />
+
+        <PatronBackground position="right" logoOpacity={0.3} logoSize={400} verticalPosition="210vh" />
 
 
         {/* ========================================
@@ -139,9 +143,11 @@ export default function Home() {
             SECCIÓN DECO - HERO DECO
         ======================================== */}
 
-        <LogoBackground position="left" logoOpacity={1} logoSize={373} verticalPosition="240vh" />
+        <LogoBackground position="left" logoOpacity={1} logoSize={300} verticalPosition="300vh" />
 
-        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition="270vh" />
+        <PointBackground position="left" logoOpacity={1} logoSize={90} verticalPosition="340vh" />
+
+        <LogoBackground position="right" logoOpacity={1} logoSize={300} verticalPosition="120vh" />
 
 
 
@@ -341,9 +347,12 @@ export default function Home() {
             SECCIÓN DECO - HERO DECO
         ======================================== */}
 
-        <LogoBackground position="right" logoOpacity={1} logoSize={400} verticalPosition="450vh" />
+        <LogoBackground position="right" logoOpacity={1} logoSize={210} verticalPosition="330vh" />
 
-        <PatronBackground position="left" logoOpacity={0.4} logoSize={1000} verticalPosition="320vh" />
+        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition="430vh" />
+
+
+        <PatronBackground position="left" logoOpacity={0.4} logoSize={1200} verticalPosition="480vh" />
 
 
         {/* FEATURE - Visual Terraform State Viewer */}
@@ -421,7 +430,7 @@ export default function Home() {
             SECCIÓN DECO - HERO DECO
         ======================================== */}
 
-        <LogoBackground position="left" logoOpacity={1} logoSize={400} verticalPosition="600vh" />
+        <LogoBackground position="left" logoOpacity={1} logoSize={300} verticalPosition="740vh" />
 
 
 
@@ -538,8 +547,11 @@ export default function Home() {
             SECCIÓN DECO - HERO DECO
         ======================================== */}
 
-        <LogoBackground position="right" logoOpacity={1} logoSize={300} verticalPosition="700vh" />
-        <PatronBackground position="right" logoOpacity={0.5} logoSize={1000} verticalPosition="600vh" />
+        <LogoBackground position="right" logoOpacity={1} logoSize={300} verticalPosition="570vh" />
+        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition="690vh" />
+
+        <PatronBackground position="right" logoOpacity={0.2} logoSize={1000} verticalPosition="830vh" />
+        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition="870vh" />
 
 
         {/* FEATURE - Multi-Cloud & On-Premises Support */}
@@ -582,7 +594,7 @@ export default function Home() {
           <div className="section-title">
             <p>Trusted by Open Source Supporters</p>
           </div>
-          <p className="feature-description">Thanks to the following organizations for supporting us with free licenses and resources.</p>
+          <p className="feature-description ">Thanks to the following organizations for supporting us with free licenses and resources.</p>
         </div>
 
         {/* SPONSORS LOGOS */}
@@ -632,8 +644,8 @@ export default function Home() {
             SECCIÓN DECO - HERO DECO
         ======================================== */}
 
-        <LogoBackground position="left" logoOpacity={1} logoSize={400} verticalPosition="820vh" />
-        <PatronBackground position="left" logoOpacity={0.1} logoSize={1500} verticalPosition="820vh" />
+        <LogoBackground position="left" logoOpacity={1} logoSize={400} verticalPosition="1040vh" />
+        <PatronBackground position="left" logoOpacity={0.2} logoSize={1500} verticalPosition="1040vh" />
 
 
         {/* ========================================
@@ -653,7 +665,7 @@ export default function Home() {
         <div className="support-buttons-container">
           <a
             className="support-button"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href=""
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -661,7 +673,7 @@ export default function Home() {
           </a>
           <a
             className="support-button"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href=""
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -669,7 +681,7 @@ export default function Home() {
           </a>
           <a
             className="support-button"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href=""
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -679,6 +691,9 @@ export default function Home() {
 
         <hr className="border-t-2 border-gray-300  w-[200px] mx-auto my-20" />
 
+
+        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition="1100vh" />
+
         {/* ========================================
             SECCIÓN JOIN COMMUNITY - COMMUNITY SECTION
         ======================================== */}
@@ -686,8 +701,11 @@ export default function Home() {
           <div className="community-content-wrapper">
             <div className="community-left-content">
               <p>Join Our <span className="community-highlight">Community</span></p>
-              <p>Whether you're fixing bugs, adding features, improving docs, or providing feedback, your input makes a difference.</p>
-              <a className="header-button" href="#" target="_blank" rel="noopener noreferrer">Join our Slack</a>
+              <p>Whether you&apos;re fixing bugs, adding features, improving docs, or providing feedback, your input makes a difference.</p>
+              <a className="header-button" href="#"
+                target="_blank" rel="noopener noreferrer">
+                <Image src="/slack.png" alt="Slack" width={20} height={20} />
+                Join our Slack</a>
             </div>
             <div className="community-right-content">
               <h3>Get Involved</h3>
