@@ -171,6 +171,19 @@ header {
   word-break: break-word;
 }
 
+
+.feature-highlight-orange_espe {
+  background: linear-gradient(#F89E27 0%, #F1613D 100%);
+  border-radius: 15px;
+  padding: 8px 15px;
+  color: white;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: bold;
+  line-height: 1;
+  display: inline-block;
+  word-break: break-word;
+}
+
 .feature-highlight-blue {
   background: linear-gradient(#1F88F1 0%, #00D6E8 100%);
   border-radius: 15px;
@@ -247,6 +260,11 @@ header {
   box-sizing: border-box;
 }
 
+.section-heade-sub
+{
+  max-width: 600px;
+}
+
 .section-title {
   font-size: clamp(28px, 5vw, 35px);
   margin-bottom: 30px;
@@ -310,9 +328,8 @@ header {
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   min-height: 40px;
   box-sizing: border-box;
   text-align: center;
@@ -532,6 +549,7 @@ header {
   .feature-highlight-blue {
     font-size: 24px;
   }
+
 
   .sponsors-container {
     padding: 20px 10px;

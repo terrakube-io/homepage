@@ -1,16 +1,18 @@
 import Image from "next/image";
-import LogoBackground from "./LogoBackground ";
+import LogoBackground from "./LogoBackground";
 import PatronBackground from './PatronBackground';
 
 
 export default function Home() {
   return (
+
     <div className="main-container relative min-h-screen flex flex-col items-center justify-center p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-8 items-center w-full max-w-7xl">
 
         {/* ========================================
             SECCIÓN DECO - HERO DECO
         ======================================== */}
+
 
         <LogoBackground position="left" logoOpacity={1} logoSize={200} verticalPosition="30vh" />
         <PatronBackground position="left" logoOpacity={0.4} logoSize={600} verticalPosition="70vh" />
@@ -277,7 +279,7 @@ export default function Home() {
           </div>
           <div className="feature-content">
             <div className="feature-title">
-              <p className="feature-highlight-orange">Cloud & Remote</p>
+              <p className="feature-highlight-orange_espe">Cloud & Remote</p>
               <p>Backend Support</p>
             </div>
             <div className="feature-description">
@@ -641,7 +643,10 @@ export default function Home() {
           <div className="section-title">
             <p>Support the Project</p>
           </div>
-          <p className="feature-description">Terrakube is powered by the community. If you believe in open source IaC, consider sponsoring us.</p>
+          <div className="section-heade-sub">
+            <p className="feature-description">Terrakube is powered by the community. If you believe in open source IaC, consider sponsoring us.</p>
+          </div>
+
         </div>
 
         {/* SUPPORT BUTTONS */}

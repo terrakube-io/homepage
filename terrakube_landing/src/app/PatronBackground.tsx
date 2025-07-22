@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 interface PatronBackgroundProps {
   children?: ReactNode;
-  position?: "left" | "right";
+  position?: "left" | "right" | "top";
   logoOpacity?: number;
   logoSize?: number;
   className?: string;
@@ -22,6 +22,7 @@ const PatronBackground: React.FC<PatronBackgroundProps> = ({
     left: {
       left: `0px`,
       right: "auto",
+      top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
       transform: "translateX(-30%) translateY(-50%)",
       borderTopRightRadius: "2rem",
       borderBottomRightRadius: "2rem"
@@ -29,9 +30,18 @@ const PatronBackground: React.FC<PatronBackgroundProps> = ({
     right: {
       right: `0px`,
       left: "auto",
+      top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
       transform: "translateX(30%) translateY(-50%)",
       borderTopLeftRadius: "2rem",
       borderBottomLeftRadius: "2rem"
+    },
+    top: {
+      left: "50%",
+      right: "auto",
+      top: "0px",
+      transform: "translateX(-50%) translateY(-30%)",
+      borderBottomLeftRadius: "2rem",
+      borderBottomRightRadius: "2rem"
     }
   };
 
@@ -40,13 +50,11 @@ const PatronBackground: React.FC<PatronBackgroundProps> = ({
       <div
         style={{
           position: "absolute",
-              zIndex: -2,
-          top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
+          zIndex: -2,
           width: `${logoSize}px`,
           height: `${logoSize * 0.67}px`,
           opacity: logoOpacity,
           pointerEvents: "none",
-        
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
