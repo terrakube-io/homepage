@@ -1,0 +1,9 @@
+{
+  "name": "Terrakube Home",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "workspaceFolder": "/workspaces/landing",
+
+  "postStartCommand": "/workspaces/landing/scripts/initWorkspace.sh",
+
+  "forwardPorts": [3000]
+}

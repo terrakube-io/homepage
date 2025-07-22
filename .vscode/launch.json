@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Development",
+            "runtimeExecutable": "npm",
+            "cwd": "${workspaceFolder}/terrakube_landing",
+            "runtimeArgs": ["run","dev"],
+            "envFile": "${workspaceFolder}/.envUi"
+        }
+    ],
+    "compounds": [
+
+    ]
+}
