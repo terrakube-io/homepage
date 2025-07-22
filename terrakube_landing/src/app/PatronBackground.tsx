@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 
-interface LogoBackgroundProps {
+interface PatronBackgroundProps {
   children?: ReactNode;
   position?: "left" | "right";
   logoOpacity?: number;
@@ -10,7 +10,7 @@ interface LogoBackgroundProps {
   verticalPosition?: number | string;
 }
 
-const LogoBackground: React.FC<LogoBackgroundProps> = ({
+const PatronBackground: React.FC<PatronBackgroundProps> = ({
   children = null,
   position = "left",
   logoOpacity = 0.1,
@@ -40,12 +40,13 @@ const LogoBackground: React.FC<LogoBackgroundProps> = ({
       <div
         style={{
           position: "absolute",
+              zIndex: -2,
           top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
           width: `${logoSize}px`,
           height: `${logoSize * 0.67}px`,
           opacity: logoOpacity,
           pointerEvents: "none",
-          zIndex: -1,
+        
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -53,15 +54,14 @@ const LogoBackground: React.FC<LogoBackgroundProps> = ({
         }}
       >
         <Image
-          src="/terrakube.png"
-          alt="terrakube background logo"
+          src="/patron.png"
+          alt="patron background logo"
           width={logoSize}
           height={logoSize * 0.67}
           priority={true}
           className="select-none object-contain"
           style={{
             userSelect: "none",
-            filter: "blur(30px)",
             backgroundColor: "transparent"
           }}
         />
@@ -76,4 +76,4 @@ const LogoBackground: React.FC<LogoBackgroundProps> = ({
   );
 };
 
-export default LogoBackground;
+export default PatronBackground;
