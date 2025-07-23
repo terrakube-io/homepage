@@ -6,7 +6,7 @@
             "request": "launch",
             "name": "Development",
             "runtimeExecutable": "npm",
-            "cwd": "${workspaceFolder}/terrakube_landing",
+            "cwd": "${workspaceFolder}",
             "runtimeArgs": ["run","dev"],
             "envFile": "${workspaceFolder}/.envUi"
         }
