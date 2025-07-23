@@ -75,7 +75,7 @@ const PointBackground: React.FC<PointBackgroundProps> = ({
           width={logoSize}
           height={logoSize * 0.67}
           priority={true}
-          className="select-none object-contain"
+          className="select-none object-contain points-responsive"
           style={{
             userSelect: "none",
             backgroundColor: "transparent"
