@@ -18,11 +18,19 @@ const PatronBackground: React.FC<PatronBackgroundProps> = ({
   className = "",
   verticalPosition = "50vh"
 }) => {
+  const getVerticalPosition = () => {
+    if (typeof verticalPosition === 'string' && verticalPosition.includes('vh')) {
+      const vhValue = parseInt(verticalPosition);
+      return `${vhValue * 10}px`; 
+    }
+    return typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition;
+  };
+
   const positionStyles = {
     left: {
       left: `0px`,
       right: "auto",
-      top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
+      top: getVerticalPosition(),
       transform: "translateX(-30%) translateY(-50%)",
       borderTopRightRadius: "2rem",
       borderBottomRightRadius: "2rem"
@@ -30,7 +38,7 @@ const PatronBackground: React.FC<PatronBackgroundProps> = ({
     right: {
       right: `0px`,
       left: "auto",
-      top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
+      top: getVerticalPosition(),
       transform: "translateX(30%) translateY(-50%)",
       borderTopLeftRadius: "2rem",
       borderBottomLeftRadius: "2rem"
@@ -49,7 +57,7 @@ const PatronBackground: React.FC<PatronBackgroundProps> = ({
     <>
       <div
         style={{
-          position: "absolute",
+          position: "absolute", 
           zIndex: -2,
           width: `${logoSize}px`,
           height: `${logoSize * 0.67}px`,
@@ -74,7 +82,6 @@ const PatronBackground: React.FC<PatronBackgroundProps> = ({
           }}
         />
       </div>
-
       {children && (
         <div className={`relative z-10 w-full ${className}`}>
           {children}

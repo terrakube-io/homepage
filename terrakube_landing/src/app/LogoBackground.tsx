@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 interface LogoBackgroundProps {
   children?: ReactNode;
-  position?: "left" | "right";
+  position?: "left" | "right" | "top";
   logoOpacity?: number;
   logoSize?: number;
   className?: string;
@@ -18,10 +18,19 @@ const LogoBackground: React.FC<LogoBackgroundProps> = ({
   className = "",
   verticalPosition = "50vh"
 }) => {
+  const getVerticalPosition = () => {
+    if (typeof verticalPosition === 'string' && verticalPosition.includes('vh')) {
+      const vhValue = parseInt(verticalPosition);
+      return `${vhValue * 10}px`; 
+    }
+    return typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition;
+  };
+
   const positionStyles = {
     left: {
       left: `0px`,
       right: "auto",
+      top: getVerticalPosition(),
       transform: "translateX(-30%) translateY(-50%)",
       borderTopRightRadius: "2rem",
       borderBottomRightRadius: "2rem"
@@ -29,9 +38,18 @@ const LogoBackground: React.FC<LogoBackgroundProps> = ({
     right: {
       right: `0px`,
       left: "auto",
+      top: getVerticalPosition(),
       transform: "translateX(30%) translateY(-50%)",
       borderTopLeftRadius: "2rem",
       borderBottomLeftRadius: "2rem"
+    },
+    top: {
+      left: "50%",
+      right: "auto",
+      top: "0px",
+      transform: "translateX(-50%) translateY(-30%)",
+      borderBottomLeftRadius: "2rem",
+      borderBottomRightRadius: "2rem"
     }
   };
 
@@ -40,12 +58,11 @@ const LogoBackground: React.FC<LogoBackgroundProps> = ({
       <div
         style={{
           position: "absolute",
-          top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
+          zIndex: -2,
           width: `${logoSize}px`,
           height: `${logoSize * 0.67}px`,
           opacity: logoOpacity,
           pointerEvents: "none",
-          zIndex: -1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -66,7 +83,6 @@ const LogoBackground: React.FC<LogoBackgroundProps> = ({
           }}
         />
       </div>
-
       {children && (
         <div className={`relative z-10 w-full ${className}`}>
           {children}

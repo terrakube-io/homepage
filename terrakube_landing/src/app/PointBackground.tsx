@@ -1,16 +1,16 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 
-interface PointBackground {
+interface PointBackgroundProps {
   children?: ReactNode;
-  position?: "left" | "right";
+  position?: "left" | "right" | "top";
   logoOpacity?: number;
   logoSize?: number;
   className?: string;
   verticalPosition?: number | string;
 }
 
-const PointBackground: React.FC<PointBackground> = ({
+const PointBackground: React.FC<PointBackgroundProps> = ({
   children = null,
   position = "left",
   logoOpacity = 0.1,
@@ -18,10 +18,19 @@ const PointBackground: React.FC<PointBackground> = ({
   className = "",
   verticalPosition = "50vh"
 }) => {
+  const getVerticalPosition = () => {
+    if (typeof verticalPosition === 'string' && verticalPosition.includes('vh')) {
+      const vhValue = parseInt(verticalPosition);
+      return `${vhValue * 10}px`; 
+    }
+    return typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition;
+  };
+
   const positionStyles = {
     left: {
       left: `70px`,
       right: "auto",
+      top: getVerticalPosition(),
       transform: "translateX(-20%) translateY(-50%)",
       borderTopRightRadius: "2rem",
       borderBottomRightRadius: "2rem"
@@ -29,9 +38,18 @@ const PointBackground: React.FC<PointBackground> = ({
     right: {
       right: `0px`,
       left: "auto",
+      top: getVerticalPosition(),
       transform: "translateX(-60%) translateY(-50%)",
       borderTopLeftRadius: "2rem",
       borderBottomLeftRadius: "2rem"
+    },
+    top: {
+      left: "50%",
+      right: "auto",
+      top: "0px",
+      transform: "translateX(-50%) translateY(-30%)",
+      borderBottomLeftRadius: "2rem",
+      borderBottomRightRadius: "2rem"
     }
   };
 
@@ -39,13 +57,12 @@ const PointBackground: React.FC<PointBackground> = ({
     <>
       <div
         style={{
-          position: "absolute",
-          top: typeof verticalPosition === 'number' ? `${verticalPosition}px` : verticalPosition,
+          position: "absolute", 
+          zIndex: -2,
           width: `${logoSize}px`,
           height: `${logoSize * 0.67}px`,
           opacity: logoOpacity,
           pointerEvents: "none",
-          zIndex: -1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -65,7 +82,6 @@ const PointBackground: React.FC<PointBackground> = ({
           }}
         />
       </div>
-
       {children && (
         <div className={`relative z-10 w-full ${className}`}>
           {children}

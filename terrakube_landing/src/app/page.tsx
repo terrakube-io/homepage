@@ -3,26 +3,61 @@ import LogoBackground from "./LogoBackground";
 import PatronBackground from './PatronBackground';
 import PointBackground from "./PointBackground";
 
-
 export default function Home() {
   return (
+    <div className="main-container relative min-h-screen flex flex-col p-8 pb-20 pt-0 gap-16 sm:p-20 sm:pt-0 overflow-x-hidden">
+      {/* ========================================
+          HEADER SECTION
+      ======================================== */}
+      <header>
+        <div className="contenedorLogoTexto">
+          <Image
+            className="logo"
+            src="/terrakube.png"
+            alt="terrakube logo"
+            width={47}
+            height={45}
+            priority
+          />
+          <h1 className="textoEncabezado">Terrakube</h1>
+        </div>
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <a
+            className="header-button"
+            href=""
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Documentation
+          </a>
+          <a
+            className="header-button"
+            href=""
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub Repo
+          </a>
+          <a
+            className="header-button"
+            href=""
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Join our Slack
+          </a>
+        </div>
+      </header>
 
-    <div className="main-container relative min-h-screen flex flex-col items-center justify-center p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-8 items-center w-full max-w-7xl">
-
+      <main className="flex flex-col gap-8 items-center w-full max-w-7xl mx-auto">
         {/* ========================================
             SECCIÓN DECO - HERO DECO
         ======================================== */}
+        <LogoBackground position="left" logoOpacity={1} logoSize={200} verticalPosition={400} />
+        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition={400} />
 
-
-        <LogoBackground position="left" logoOpacity={1} logoSize={200} verticalPosition="30vh" />
-        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition="30vh" />
-
-
-        <PatronBackground position="left" logoOpacity={0.4} logoSize={900} verticalPosition="100vh" />
-
-        <PatronBackground position="right" logoOpacity={0.3} logoSize={400} verticalPosition="210vh" />
-
+        <PatronBackground position="left" logoOpacity={0.4} logoSize={900} verticalPosition={1000} />
+        <PatronBackground position="right" logoOpacity={0.4} logoSize={1200} verticalPosition={2000} />
 
         {/* ========================================
             SECCIÓN HERO - HERO SECTION
@@ -39,10 +74,7 @@ export default function Home() {
           </div>
         </div>
 
-
         <hr className="border-t-2 border-gray-300 my-20 w-[400px] mx-auto" />
-
-
 
         {/* ========================================
             SECCIÓN WHY CHOOSE TERRAKUBE - WHY CHOOSE SECTION
@@ -60,7 +92,6 @@ export default function Home() {
             <p> cloud infrastructure — fully open source.</p>
           </div>
         </div>
-
 
         {/* ========================================
             SECCIONES DE CARACTERÍSTICAS - FEATURE SECTIONS
@@ -97,12 +128,8 @@ export default function Home() {
               priority
             />
           </div>
-
           <hr className="border-t-2 border-gray-300 w-full mt-8" />
-
         </div>
-
-
 
         {/* FEATURE - Terraform & OpenTofu Support */}
         <div className="feature-section">
@@ -136,24 +163,17 @@ export default function Home() {
             </a>
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
 
         {/* ========================================
             SECCIÓN DECO - HERO DECO
         ======================================== */}
+        <LogoBackground position="left" logoOpacity={1} logoSize={330} verticalPosition={2500} />
 
-        <LogoBackground position="left" logoOpacity={1} logoSize={300} verticalPosition="300vh" />
-
-        <PointBackground position="left" logoOpacity={1} logoSize={90} verticalPosition="340vh" />
-
-        <LogoBackground position="right" logoOpacity={1} logoSize={300} verticalPosition="120vh" />
-
-
+        <PointBackground position="left" logoOpacity={1} logoSize={90} verticalPosition={3100} />
 
 
         {/* FEATURE - Private Module/Provider Registry */}
-
         <div className="feature-section">
           <div className="feature-content">
             <div className="feature-title">
@@ -186,9 +206,7 @@ export default function Home() {
             />
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
 
         {/* FEATURE - Self-Hosted & Ephemeral Agents */}
         <div className="feature-section">
@@ -222,9 +240,7 @@ export default function Home() {
             </a>
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
 
         {/* FEATURE - Single Sign-On (SSO) */}
         <div className="feature-section">
@@ -234,13 +250,11 @@ export default function Home() {
               <p className="feature-highlight-blue">(SSO)</p>
             </div>
             <div className="feature-description ulista">
-
               <ul>
                 <li>Azure Entra ID</li>
                 <li>Google Cloud Identity</li>
                 <li>Amazon Cognito</li>
               </ul>
-
               <ul>
                 <li>GitHub</li>
                 <li> Keycloak</li>
@@ -267,9 +281,7 @@ export default function Home() {
             />
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
 
         {/* FEATURE - Cloud & Remote Backend Support */}
         <div className="feature-section">
@@ -303,9 +315,7 @@ export default function Home() {
             </a>
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
 
         {/* FEATURE - Role-Based Access Control */}
         <div className="feature-section">
@@ -316,7 +326,6 @@ export default function Home() {
             </div>
             <div className="feature-description">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing
-
                 elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua.</p>
             </div>
@@ -340,20 +349,15 @@ export default function Home() {
             />
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
 
         {/* ========================================
             SECCIÓN DECO - HERO DECO
         ======================================== */}
+        <LogoBackground position="right" logoOpacity={1} logoSize={210} verticalPosition={2600} />
+        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition={3300} />
 
-        <LogoBackground position="right" logoOpacity={1} logoSize={210} verticalPosition="330vh" />
-
-        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition="430vh" />
-
-
-        <PatronBackground position="left" logoOpacity={0.4} logoSize={1200} verticalPosition="480vh" />
-
+        <PatronBackground position="left" logoOpacity={0.4} logoSize={1200} verticalPosition={4000} />
 
         {/* FEATURE - Visual Terraform State Viewer */}
         <div className="feature-section">
@@ -387,9 +391,7 @@ export default function Home() {
             </a>
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
 
         {/* FEATURE - Scheduled Jobs */}
         <div className="feature-section">
@@ -423,16 +425,13 @@ export default function Home() {
             />
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
 
         {/* ========================================
             SECCIÓN DECO - HERO DECO
         ======================================== */}
 
-        <LogoBackground position="left" logoOpacity={1} logoSize={300} verticalPosition="740vh" />
-
-
+        <LogoBackground position="left" logoOpacity={1} logoSize={300} verticalPosition={6000} />
 
         {/* FEATURE - Dynamic Credentials */}
         <div className="feature-section">
@@ -466,9 +465,7 @@ export default function Home() {
             </a>
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
 
         {/* FEATURE - Native VCS Integration */}
         <div className="feature-section">
@@ -502,9 +499,7 @@ export default function Home() {
             />
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
 
         {/* FEATURE - Policy Enforcement with OPA */}
         <div className="feature-section">
@@ -538,20 +533,17 @@ export default function Home() {
             </a>
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-
         </div>
-
-
 
         {/* ========================================
             SECCIÓN DECO - HERO DECO
         ======================================== */}
+        <LogoBackground position="right" logoOpacity={1} logoSize={300} verticalPosition={4400} />
 
-        <LogoBackground position="right" logoOpacity={1} logoSize={300} verticalPosition="570vh" />
-        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition="690vh" />
+        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition={5200} />
 
-        <PatronBackground position="right" logoOpacity={0.2} logoSize={1000} verticalPosition="830vh" />
-        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition="870vh" />
+        <PatronBackground position="right" logoOpacity={0.2} logoSize={1200} verticalPosition={6800} />
+        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition={7400} />
 
 
         {/* FEATURE - Multi-Cloud & On-Premises Support */}
@@ -639,14 +631,12 @@ export default function Home() {
           </div>
         </div>
 
-
         {/* ========================================
             SECCIÓN DECO - HERO DECO
         ======================================== */}
+        <LogoBackground position="left" logoOpacity={1} logoSize={400} verticalPosition={8000} />
 
-        <LogoBackground position="left" logoOpacity={1} logoSize={400} verticalPosition="1040vh" />
-        <PatronBackground position="left" logoOpacity={0.2} logoSize={1500} verticalPosition="1040vh" />
-
+        <PatronBackground position="left" logoOpacity={0.2} logoSize={1500} verticalPosition={8000} />
 
         {/* ========================================
             SECCIÓN SUPPORT THE PROJECT - SUPPORT SECTION
@@ -658,7 +648,6 @@ export default function Home() {
           <div className="section-heade-sub">
             <p className="feature-description">Terrakube is powered by the community. If you believe in open source IaC, consider sponsoring us.</p>
           </div>
-
         </div>
 
         {/* SUPPORT BUTTONS */}
@@ -691,8 +680,7 @@ export default function Home() {
 
         <hr className="border-t-2 border-gray-300  w-[200px] mx-auto my-20" />
 
-
-        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition="1100vh" />
+        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition={8600} />
 
         {/* ========================================
             SECCIÓN JOIN COMMUNITY - COMMUNITY SECTION
@@ -718,9 +706,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-
       </main>
-    </div >
+    </div>
   );
 }

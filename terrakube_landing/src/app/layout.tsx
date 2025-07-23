@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Encabezado from "./encabezado";
 import PatronBackground from "./PatronBackground";
 
 const geistSans = Geist({
@@ -32,9 +31,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <PatronBackground position="top" logoOpacity={0.9} logoSize={700} ></PatronBackground>
-        <Encabezado />
 
+        <PatronBackground position="top" logoOpacity={0.9} logoSize={700} ></PatronBackground>
         {children}
       </body>
     </html >
