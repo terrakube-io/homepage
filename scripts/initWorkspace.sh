@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd /workspaces/landing/terrakube_landing
+cd /workspaces/landing
 npm install
