@@ -380,9 +380,7 @@ export default function Home() {
               <p>Viewer</p>
             </div>
             <div className="feature-description">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
+              <p>Quickly see all your deployment resources in your terraform code and check the terraform state file with a single click</p>
             </div>
             <a
                 className="header-button"
