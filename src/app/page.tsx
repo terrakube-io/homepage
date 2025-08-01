@@ -221,7 +221,7 @@ export default function Home() {
               <p>access control</p>
             </div>
             <div className="feature-description ulista">
-              <p>Restricts access based on a user's role within an organization.
+              <p>Restricts access based on a user&#39;s role within an organization.
                 Assigns permissions to users according to their job responsibilities,
                 ensuring they only access the information necessary for their tasks.
                 Manage external access using:
