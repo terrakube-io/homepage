@@ -137,9 +137,8 @@ export default function Home() {
             </div>
             <div className="feature-description">
               <p>Support major infrastructure as code tools to handle any
-                 cloud or on-premises infrastructure in a single place with
-                 multiple teams collaborating together to manage terraform
-                 or opentofu at scale
+                 cloud or on-premises infrastructure configuration in a single place with
+                 multiple teams collaborating together
               </p>
             </div>
             <a
