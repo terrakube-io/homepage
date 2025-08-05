@@ -2,6 +2,7 @@ import Image from "next/image";
 import LogoBackground from "./LogoBackground";
 import PatronBackground from './PatronBackground';
 import PointBackground from "./PointBackground";
+import HamburgerMenu from "./HamburgerMenu";
 
 export default function Home() {
   return (
@@ -35,6 +36,28 @@ export default function Home() {
             <Image src="/slack.png" alt="Slack" width={20} height={20} />
             Slack</a>
         </div>
+        <HamburgerMenu 
+          links={[
+            {
+              href: "https://docs.terrakube.io/",
+              icon: "/gitbooklogo.svg",
+              alt: "Gitbook",
+              text: "Docs"
+            },
+            {
+              href: "https://github.com/terrakube-io/terrakube",
+              icon: "/github-mark-white.svg",
+              alt: "Github",
+              text: "Github"
+            },
+            {
+              href: "https://join.slack.com/t/terrakubeworkspace/shared_invite/zt-2cx6yn95t-2CTBGvsQhBQJ5bfbG4peFg",
+              icon: "/slack.png",
+              alt: "Slack",
+              text: "Slack"
+            }
+          ]}
+        />
       </header>
 
       <main className="flex flex-col gap-8 items-center w-full max-w-7xl mx-auto">
