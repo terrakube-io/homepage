@@ -103,7 +103,7 @@ export default function Home() {
         </div>
 
         {/* ========================================
-            SECCIONES DE CARACTERÍSTICAS - FEATURE SECTIONS
+            FEATURE SECTIONS
         ======================================== */}
 
         {/* FEATURE - Fully Open Source */}
@@ -112,9 +112,9 @@ export default function Home() {
             <div className="feature-title ">
               <p className="feature-highlight-blue">Open Source</p>
             </div>
-            <div className="feature-description">
+            <div className="feature-description justified">
               <p>Complete access to the source code and the ability to customize and extend the platform to fit your organization needs
-                 simply by using devcontainers to extend its core functionality in seconds.
+                 simply by using devcontainers to add functionalities in seconds.
               </p>
             </div>
             <a
@@ -154,7 +154,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-orange">Terraform & OpenTofu</p>
             </div>
-            <div className="feature-description">
+            <div className="feature-description justified">
               <p>Support major infrastructure as code tools to handle any
                  cloud or on-premises configuration in a single place with
                  multiple teams collaborating together
@@ -185,7 +185,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-blue">Single Sign-On</p>
             </div>
-            <div className="feature-description ulista">
+            <div className="feature-description ulista justified">
               <p>Supports a wide range of identity providers allowing Terrakube to authenticate using any of the following services:</p>
               <ul>
                 <li>Azure Entra ID</li>
@@ -236,7 +236,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-orange">Access control</p>
             </div>
-            <div className="feature-description ulista">
+            <div className="feature-description ulista justified">
               <p>Restricts access based on a user&#39;s roles within an organization.
                 Assigns permissions according to job responsibilities,
                 ensuring only access to necessary information this also includes the ability to create and manage:
@@ -264,7 +264,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-blue feature-title_espe">Private Registry</p>
             </div>
-            <div className="feature-description">
+            <div className="feature-description justified">
               <p>Allow your teams to collaborate, reuse, manage and publish internal modules and providers privately</p>
             </div>
             <a
@@ -305,10 +305,8 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-orange">Private Agents</p>
             </div>
-            <div className="feature-description">
+            <div className="feature-description  justified">
                 <p>Support creating unlimited self-hosted or ephemeral agents.
-                </p>
-                <p>
                     These agents run workflows in a secure and isolated environment
                     allowing you to keep control over your infrastructure.
                 </p>
@@ -331,7 +329,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-blue">Dynamic Credentials</p>
             </div>
-            <div className="feature-description ulista">
+            <div className="feature-description ulista  justified">
               <p>Automates the process of authenticating with cloud providers or external services.
                 It eliminates the need to use and manage long-lived, static credentials in your workspaces.
                 Currently the following providers are supported:
@@ -391,7 +389,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-orange">Visual state</p>
             </div>
-            <div className="feature-description">
+            <div className="feature-description justified">
               <p>See all resources in your infrastructure as code and check the state file with a single click</p>
             </div>
             <a
@@ -412,7 +410,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-blue">Custom workflows</p>
             </div>
-            <div className="feature-description ulista">
+            <div className="feature-description ulista  justified">
               <p>Create simple or complex workflows to automate your infrastructure management using external tools.
               </p>
             </div>
@@ -460,7 +458,7 @@ export default function Home() {
             <div className="feature-title">
               <p className="feature-highlight-orange">Scheduled jobs</p>
             </div>
-            <div className="feature-description">
+            <div className="feature-description justified">
               <p>Define your own schedules to execute different workflow operation automatically without any manual intervention</p>
             </div>
             <a
@@ -491,7 +489,7 @@ export default function Home() {
             <div className="feature-title feature-title_espe">
               <p className="feature-highlight-blue">Self-hosted Anywhere</p>
             </div>
-            <div className="feature-description">
+            <div className="feature-description  justified">
               <p>Install it in a kubernetes cluster
                  using any cloud provider or on-premises infrastructure,
                  you can also run it using simply using docker compose
@@ -587,7 +585,7 @@ export default function Home() {
             <p>Support the Project</p>
           </div>
           <div className="section-heade-sub">
-            <p className="feature-description">Terrakube is powered by the community. If you believe in open source infrastructure automation and collaboration software, consider sponsoring us.</p>
+              <p className="feature-description">Terrakube is powered by the community.</p>
           </div>
         </div>
 
