@@ -42,7 +42,7 @@ export default function Home() {
               href: "https://docs.terrakube.io/",
               icon: "/gitbooklogo.svg",
               alt: "Gitbook",
-              text: "Docs"
+              text: "Documentation"
             },
             {
               href: "https://github.com/terrakube-io/terrakube",
@@ -75,13 +75,12 @@ export default function Home() {
         ======================================== */}
         <div className="hero-section relative-container z-10">
           <div className="hero-title">
-            <p>The open-source platform that helps teams</p>
-            <p>manage their cloud infrastructure at scale using</p>
+            <p>The open source platform that helps teams</p>
+            <p>manage their infrastructure as code at scale using</p>
             <p className="hero-highlight-text">Terraform or OpenTofu.</p>
           </div>
           <div className="hero-subtitle">
-            <p>No vendor lock-in, No licensing headache, Self Hosted</p>
-            <p>anywhere you want from cloud to on premises</p>
+            <p>No vendor lock-in, No licensing headache, Self Hosted anywhere</p>
           </div>
         </div>
 
@@ -99,8 +98,7 @@ export default function Home() {
             ?
           </div>
           <div className="hero-subtitle">
-            <p>Everything you need to collaborate, run and manage your</p>
-            <p> cloud infrastructure — fully open source.</p>
+            <p>Everything you need to automate, collaborate, run and manage your infrastructure</p>
           </div>
         </div>
 
@@ -111,13 +109,12 @@ export default function Home() {
         {/* FEATURE - Fully Open Source */}
         <div className="feature-section">
           <div className="feature-content">
-            <div className="feature-title">
-              <p>Fully</p>
+            <div className="feature-title ">
               <p className="feature-highlight-blue">Open Source</p>
             </div>
             <div className="feature-description">
               <p>Complete access to the source code and the ability to customize and extend the platform to fit your organization needs
-                 using devcontainers to extend its core functionality in seconds.
+                 simply by using devcontainers to extend its core functionality in seconds.
               </p>
             </div>
             <a
@@ -156,11 +153,10 @@ export default function Home() {
           <div className="feature-content">
             <div className="feature-title">
               <p className="feature-highlight-orange">Terraform & OpenTofu</p>
-              <p>Support</p>
             </div>
             <div className="feature-description">
               <p>Support major infrastructure as code tools to handle any
-                 cloud or on-premises infrastructure configuration in a single place with
+                 cloud or on-premises configuration in a single place with
                  multiple teams collaborating together
               </p>
             </div>
@@ -188,10 +184,9 @@ export default function Home() {
           <div className="feature-content">
             <div className="feature-title">
               <p className="feature-highlight-blue">Single Sign-On</p>
-              <p>Support</p>
             </div>
             <div className="feature-description ulista">
-              <p>Supports a wide range of identity providers allowing Terrakube to use many identity provider like the followings:</p>
+              <p>Supports a wide range of identity providers allowing Terrakube to authenticate using any of the following services:</p>
               <ul>
                 <li>Azure Entra ID</li>
                 <li>Google Cloud Identity</li>
@@ -239,14 +234,12 @@ export default function Home() {
           </div>
           <div className="feature-content">
             <div className="feature-title">
-              <p className="feature-highlight-orange">Role-based</p>
-              <p>access control</p>
+              <p className="feature-highlight-orange">Access control</p>
             </div>
             <div className="feature-description ulista">
-              <p>Restricts access based on a user&#39;s role within an organization.
-                Assigns permissions to users according to their job responsibilities,
-                ensuring they only access the information necessary for their tasks.
-                Manage external access using:
+              <p>Restricts access based on a user&#39;s roles within an organization.
+                Assigns permissions according to job responsibilities,
+                ensuring only access to necessary information this also includes the ability to create and manage:
               </p>
               <ul>
                 <li>Personal access tokens</li>
@@ -259,7 +252,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-              Team management
+              Roles management
             </a>
           </div>
           <hr className="border-t-2 border-gray-300  w-full mx-auto" />
@@ -269,13 +262,10 @@ export default function Home() {
         <div className="feature-section">
           <div className="feature-content">
             <div className="feature-title">
-              <p>Private</p>
-              <p className="feature-highlight-blue feature-title_espe">Module/Provider</p>
-              <p>Registry</p>
+              <p className="feature-highlight-blue feature-title_espe">Private Registry</p>
             </div>
             <div className="feature-description">
-              <p>Allow your teams to collaborate, reuse, manage and publish
-                any internal terraform modules and providers privately</p>
+              <p>Allow your teams to collaborate, reuse, manage and publish internal modules and providers privately</p>
             </div>
             <a
               className="header-button"
@@ -313,13 +303,15 @@ export default function Home() {
           </div>
           <div className="feature-content">
             <div className="feature-title">
-              <p >Private</p>
-              <p className="feature-highlight-orange">Execution Agents</p>
+              <p className="feature-highlight-orange">Private Agents</p>
             </div>
             <div className="feature-description">
-              <p>Terrakube support creating unlimited self-hosted or ephemeral agents to execute your terraform workflow.
-                 These agents run terraform operations in a secure and isolated environment allowing you to keep control over your infrastructure.
-              </p>
+                <p>Support creating unlimited self-hosted or ephemeral agents.
+                </p>
+                <p>
+                    These agents run workflows in a secure and isolated environment
+                    allowing you to keep control over your infrastructure.
+                </p>
             </div>
             <a
               className="header-button"
@@ -338,7 +330,6 @@ export default function Home() {
           <div className="feature-content">
             <div className="feature-title">
               <p className="feature-highlight-blue">Dynamic Credentials</p>
-              <p>Support</p>
             </div>
             <div className="feature-description ulista">
               <p>Automates the process of authenticating with cloud providers or external services.
@@ -360,7 +351,7 @@ export default function Home() {
                 href="https://docs.terrakube.io/user-guide/workspaces/dynamic-provider-credentials"
                 rel="noopener noreferrer"
             >
-              Documentation
+               Authentication
             </a>
           </div>
           <div className="feature-image">
@@ -398,11 +389,10 @@ export default function Home() {
           </div>
           <div className="feature-content">
             <div className="feature-title">
-              <p className="feature-highlight-orange">Visual terraform state</p>
-              <p>Viewer</p>
+              <p className="feature-highlight-orange">Visual state</p>
             </div>
             <div className="feature-description">
-              <p>Quickly see all your deployment resources in your terraform code and check the terraform state file with a single click</p>
+              <p>See all resources in your infrastructure as code and check the state file with a single click</p>
             </div>
             <a
                 className="header-button"
@@ -421,7 +411,6 @@ export default function Home() {
           <div className="feature-content">
             <div className="feature-title">
               <p className="feature-highlight-blue">Custom workflows</p>
-              <p>Integration</p>
             </div>
             <div className="feature-description ulista">
               <p>Create simple or complex workflows to automate your infrastructure management using external tools.
@@ -469,11 +458,10 @@ export default function Home() {
           </div>
           <div className="feature-content">
             <div className="feature-title">
-              <p className="feature-highlight-orange">Scheduled</p>
-              <p>jobs</p>
+              <p className="feature-highlight-orange">Scheduled jobs</p>
             </div>
             <div className="feature-description">
-              <p>Define your own schedules to execute different infrastructure operation automatically without any manual intervention</p>
+              <p>Define your own schedules to execute different workflow operation automatically without any manual intervention</p>
             </div>
             <a
                 className="header-button"
@@ -501,13 +489,12 @@ export default function Home() {
         <div className="feature-section">
           <div className="feature-content">
             <div className="feature-title feature-title_espe">
-              <p className="feature-highlight-blue">Self-hosted & cloud</p>
-              <p>deployment</p>
+              <p className="feature-highlight-blue">Self-hosted Anywhere</p>
             </div>
             <div className="feature-description">
-              <p>Terrakube can be installed in any kubernetes cluster
+              <p>Install it in a kubernetes cluster
                  using any cloud provider or on-premises infrastructure,
-                 you can also run it using docker compose
+                 you can also run it using simply using docker compose
               </p>
             </div>
             <a
@@ -600,7 +587,7 @@ export default function Home() {
             <p>Support the Project</p>
           </div>
           <div className="section-heade-sub">
-            <p className="feature-description">Terrakube is powered by the community. If you believe in open source infrastructure as code, consider sponsoring us.</p>
+            <p className="feature-description">Terrakube is powered by the community. If you believe in open source infrastructure automation and collaboration software, consider sponsoring us.</p>
           </div>
         </div>
 
@@ -628,7 +615,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            📬 Sponsor Email: sponsor@terrakube.io
+            📬 mail: sponsor@terrakube.io
           </a>
         </div>
 
