@@ -6,7 +6,7 @@ import HamburgerMenu from "./HamburgerMenu";
 
 export default function Home() {
   return (
-    <div className="main-container relative min-h-screen flex flex-col p-8 pb-20 pt-0 gap-16 sm:p-20 sm:pt-0 overflow-x-hidden">
+    <div className="main-container relative min-h-screen flex flex-col p-8 pb-20 pt-0 gap-16 sm:p-20 sm:pt-0">
       {/* ========================================
           HEADER SECTION
       ======================================== */}
