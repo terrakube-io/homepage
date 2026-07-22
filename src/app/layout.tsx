@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Alexandria, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import PatronBackground from "./PatronBackground";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const alexandria = Alexandria({
+  variable: "--font-alexandria",
   subsets: ["latin"],
 });
 
@@ -14,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Terrakube",
-  description: "Terrakube",
+  title: "Terrakube — Open Source IaC Automation Platform",
+  description:
+    "The open source platform that helps teams manage their infrastructure as code at scale using Terraform or OpenTofu. No vendor lock-in, no licensing headache, self hosted anywhere.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -28,13 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-
-        <PatronBackground position="top" logoOpacity={0.9} logoSize={700} ></PatronBackground>
+      <body className={`${alexandria.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
-    </html >
+    </html>
   );
 }
