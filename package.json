@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "node scripts/optimize-images.mjs && next build",
     "build-cloudfare": "npx @cloudflare/next-on-pages@1",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@fontsource/alexandria": "^5.2.6",
     "next": "15.4.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
