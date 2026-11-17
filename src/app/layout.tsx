@@ -1,23 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import PatronBackground from "./PatronBackground";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const description =
+  "Open source infrastructure as code automation and collaboration for Terraform and OpenTofu. Self-hosted anywhere.";
 
 export const metadata: Metadata = {
-  title: "Terrakube",
-  description: "Terrakube",
+  metadataBase: new URL("https://terrakube.io"),
+  title: "Terrakube · Infrastructure as code automation for Terraform and OpenTofu",
+  description,
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.png",
+  },
+  openGraph: {
+    title: "Terrakube",
+    description,
+    url: "https://terrakube.io",
+    siteName: "Terrakube",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Terrakube workspace list" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terrakube",
+    description,
+    images: ["/og.png"],
   },
 };
 
@@ -28,13 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-
-        <PatronBackground position="top" logoOpacity={0.9} logoSize={700} ></PatronBackground>
+      <body>
         {children}
       </body>
-    </html >
+    </html>
   );
 }

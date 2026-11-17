@@ -1,651 +1,485 @@
 import Image from "next/image";
-import LogoBackground from "./LogoBackground";
-import PatronBackground from './PatronBackground';
-import PointBackground from "./PointBackground";
-import HamburgerMenu from "./HamburgerMenu";
+import Link from "next/link";
 
-export default function Home() {
+type Shot = { src: string; alt: string; width: number; height: number };
+
+const shotWidths = (name: string) => (/^(workspaces|hero-)/.test(name) ? [768, 1152, 2304] : [700, 1000, 1400]);
+const srcSet = (name: string, ext: string) =>
+  shotWidths(name)
+    .map((w) => `/img/${name}-${w}.${ext} ${w}w`)
+    .join(", ");
+
+/**
+ * A product screenshot captured in both application themes, pre-rendered as AVIF and WebP by
+ * scripts/optimize-images.mjs. The dark capture is served to dark-scheme visitors.
+ */
+function ThemedShot({ shot, sizes, priority }: { shot: Shot; sizes: string; priority?: boolean }) {
+  const name = shot.src.replace(/^\//, "").replace(/\.png$/, "");
+  const dark = `${name}-dark`;
+  const largest = shotWidths(name).at(-1);
   return (
-    <div className="main-container relative min-h-screen flex flex-col p-8 pb-20 pt-0 gap-16 sm:p-20 sm:pt-0">
-      {/* ========================================
-          HEADER SECTION
-      ======================================== */}
-      <header>
-        <div className="contenedorLogoTexto">
-          <Image
-            className="logo"
-            src="/terrakube.png"
-            alt="terrakube logo"
-            width={47}
-            height={45}
-            priority
-          />
-          <h1 className="textoEncabezado">Terrakube</h1>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" type="image/avif" srcSet={srcSet(dark, "avif")} sizes={sizes} />
+      <source media="(prefers-color-scheme: dark)" type="image/webp" srcSet={srcSet(dark, "webp")} sizes={sizes} />
+      <source type="image/avif" srcSet={srcSet(name, "avif")} sizes={sizes} />
+      <img
+        src={`/img/${name}-${largest}.webp`}
+        srcSet={srcSet(name, "webp")}
+        sizes={sizes}
+        width={shot.width}
+        height={shot.height}
+        alt={shot.alt}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={priority ? "high" : "auto"}
+      />
+    </picture>
+  );
+}
+
+const DOCS = "https://docs.terrakube.io";
+const GITHUB = "https://github.com/terrakube-io/terrakube";
+const SLACK = "https://join.slack.com/t/terrakubeworkspace/shared_invite/zt-2cx6yn95t-2CTBGvsQhBQJ5bfbG4peFg";
+
+/** The hero sequence, captured from the same run at four points of its life. */
+const heroFrames = ["hero-queued", "hero-approval", "hero-applying", "hero-done"];
+
+type Feature = {
+  title: string;
+  description: string;
+  link: { href: string; text: string };
+  image?: Shot;
+  extra?: { description?: string; link: { href: string; text: string } };
+};
+
+type TagGroup = { label: string; items: string[] };
+type Compact = { title: string; description: string; link: { href: string; text: string }; tags?: TagGroup[] };
+
+type Group = { title: string; intro: string; features: Feature[]; compact?: Compact[] };
+
+const groups: Group[] = [
+  {
+    title: "Run",
+    intro: "Plan, review and apply from one place, with the tools your teams already use.",
+    features: [
+      {
+        title: "Runs you can read before you apply",
+        description: "Every run shows the plan as a list of resource changes, with the console one click away. Approve it in the same view.",
+        link: { href: `${DOCS}/run-terraform/workspaces/creating-workspaces`, text: "Workspaces and runs" },
+        image: { src: "/run.png", alt: "A completed run showing three resources to create, two to change and one to destroy", width: 1400, height: 760 },
+      },
+      {
+        title: "Terraform and OpenTofu",
+        description: "Pick the tool and the version per workspace. Both run against any cloud or on-premises configuration.",
+        link: { href: `${DOCS}/run-terraform/workspaces/creating-workspaces`, text: "Creating workspaces" },
+        image: { src: "/create-workspace.png", alt: "Choosing between Terraform and OpenTofu when creating a workspace", width: 1400, height: 709 },
+      },
+      {
+        title: "Visual state",
+        description: "Every resource in the state as a dependency diagram. Inspect attributes, compare versions, roll back.",
+        link: { href: `${DOCS}/run-terraform/workspaces/terraform-state`, text: "Terraform state" },
+        image: { src: "/visual-state.png", alt: "State version shown as a diagram of VPC, subnets, gateway, instance and database", width: 1400, height: 874 },
+      },
+      {
+        title: "Templates and schedules",
+        description: "Templates define the steps a run executes, from plan and apply to custom workflows that call external tools. Schedules run them without anyone clicking.",
+        link: { href: `${DOCS}/set-up/organizations/templates`, text: "Templates" },
+        image: { src: "/templates.png", alt: "Organization templates: Plan, Plan and Apply, Destroy and CLI variants", width: 1400, height: 671 },
+        extra: { link: { href: `${DOCS}/run-terraform/workspaces/workspace-scheduler`, text: "Workspace scheduler" } },
+      },
+      {
+        title: "Run triggers",
+        description: "Chain workspaces that depend on each other. When one applies a change, Terrakube queues a run in the workspaces that consume its outputs, so a VPN never falls behind its VPC.",
+        link: { href: `${DOCS}/run-terraform/workspaces/run-triggers`, text: "Run triggers" },
+        image: { src: "/run-triggers.png", alt: "Run triggers of a vpn workspace: it runs after vpc, and app and monitoring run after it", width: 1400, height: 1011 },
+      },
+    ],
+  },
+  {
+    title: "Secure",
+    intro: "Identity comes from the provider you already run. Permissions follow the team, not the person.",
+    features: [
+      {
+        title: "Access control",
+        description: "A team maps an identity provider group to a role in the organization, so people only see what their job requires.",
+        link: { href: `${DOCS}/set-up/organizations/team-management`, text: "Team management" },
+        image: { src: "/teams.png", alt: "Teams settings with an admin team and a developers team", width: 1400, height: 481 },
+      },
+      {
+        title: "Policies as code",
+        description: "Write Open Policy Agent policies once, keep them in Git, and attach them to the organization, a project, a tag or a workspace. Every plan is checked before apply: advisory policies warn, soft-mandatory ones wait for an override with a justification, hard-mandatory ones stop the run.",
+        link: { href: `${DOCS}/govern/policy-enforcement-opa`, text: "Policy governance (OPA)" },
+        image: { src: "/opa-policy-checks.png", alt: "Policy checks of a run: one policy set passed, one advisory warning for missing tags, one soft-mandatory failure waiting for an override", width: 1400, height: 1011 },
+      },
+    ],
+    compact: [
+      {
+        title: "Single sign-on",
+        description: "Authenticate with the identity provider your organization already uses.",
+        tags: [
+          { label: "Providers", items: ["Azure Entra ID", "Google Cloud Identity", "Amazon Cognito", "GitHub", "Keycloak"] },
+          { label: "Protocols", items: ["OIDC", "SAML"] },
+        ],
+        link: { href: `${DOCS}/getting-started/user-management`, text: "User management" },
+      },
+      {
+        title: "Dynamic credentials",
+        description: "Cloud credentials issued at run time, nothing long-lived stored in the workspace.",
+        tags: [
+          { label: "Clouds", items: ["Amazon Web Services", "Azure", "Google Cloud"] },
+          { label: "Secret stores", items: ["Vault", "OpenBao"] },
+        ],
+        link: { href: `${DOCS}/run-terraform/workspaces/dynamic-provider-credentials`, text: "Dynamic provider credentials" },
+      },
+    ],
+  },
+  {
+    title: "Host",
+    intro: "Your cluster, your registry, your agents. Nothing leaves the network you choose.",
+    features: [
+      {
+        title: "Private registry",
+        description: "Publish, version and reuse internal modules and providers, with the usage snippet and README next to inputs and outputs.",
+        link: { href: `${DOCS}/private-registry/private-registry`, text: "Private registry" },
+        image: { src: "/registry.png", alt: "A private module page with the usage block, version, source and inputs", width: 1400, height: 697 },
+      },
+      {
+        title: "Self-hosted anywhere",
+        description: "A Kubernetes cluster on any cloud or on-premises, or the whole platform with Docker Compose.",
+        link: { href: `${DOCS}/getting-started/deployment`, text: "Deployment" },
+      },
+    ],
+    compact: [
+      {
+        title: "Private agents",
+        description: "Run jobs on self-hosted or ephemeral agents, in an environment you control.",
+        link: { href: `${DOCS}/getting-started/deployment/ephemeral-agents`, text: "Ephemeral agents" },
+      },
+      {
+        title: "Open source",
+        description: "Read the code, extend the platform, and start a development environment from the dev container in minutes.",
+        link: { href: `${DOCS}/getting-started/development/dev-container`, text: "Development environment" },
+      },
+    ],
+  },
+];
+
+const install = `helm repo add terrakube-repo https://helm.terrakube.io
+helm install terrakube terrakube-repo/terrakube \\
+  -n terrakube --create-namespace -f values.yaml`;
+
+const sponsors = [
+  { src: "/img/jetbrains.webp", alt: "JetBrains", width: 261, height: 56 },
+  { src: "/img/gitbook.webp", alt: "GitBook", width: 261, height: 56 },
+  { src: "/img/docker.webp", alt: "Docker", width: 222, height: 56 },
+  { src: "/img/tuta.webp", alt: "Tuta", width: 156, height: 56 },
+];
+
+const support = [
+  { href: "https://github.com/sponsors/terrakube-io", title: "GitHub Sponsors", text: "Recurring or one-time sponsorship through GitHub.", link: "Sponsor on GitHub" },
+  { href: "https://opencollective.com/terrakube", title: "Open Collective", text: "Transparent funding for the project's infrastructure.", link: "Open Collective" },
+  { href: "mailto:sponsor@terrakube.io", title: "Partnerships", text: "Talk to us about licenses or services for the project.", link: "sponsor@terrakube.io" },
+];
+
+const involved = [
+  { href: `${GITHUB}/discussions`, text: "Join GitHub discussions to share ideas" },
+  { href: `${GITHUB}/issues`, text: "Open issues for bugs or feature suggestions" },
+  { href: `${DOCS}/getting-started/deployment`, text: "Test deployments on different cloud providers" },
+];
+
+const steps = [
+  { title: "Install", text: "Helm on Kubernetes or Docker Compose. One release, your own domain." },
+  { title: "Connect", text: "Sign in through your identity provider; link GitHub, GitLab, Bitbucket or Azure DevOps." },
+  { title: "Run", text: "Push to a branch, or point the Terraform CLI at the remote backend. Review the plan, approve, apply." },
+  { title: "Govern", text: "Teams map groups to roles; templates, policies and the private registry keep every workspace in line." },
+];
+
+const docs = [
+  { title: "Install it", text: "Helm on Kubernetes or Docker Compose, with the values and secrets explained.", href: `${DOCS}/getting-started/deployment`, link: "Deployment guide" },
+  { title: "Run your first workspace", text: "Connect a GitHub, GitLab, Bitbucket or Azure DevOps repository, or push from the CLI, then plan and apply.", href: `${DOCS}/run-terraform/workspaces/creating-workspaces`, link: "Creating workspaces" },
+  { title: "Set up access", text: "Dex connects your identity provider; teams map groups to roles.", href: `${DOCS}/getting-started/user-management`, link: "User management" },
+  { title: "Drive it from code", text: "A CLI for day-to-day work and an API for everything else.", href: `${DOCS}/integrate/terrakube-cli`, link: "Terrakube CLI", second: { href: `${DOCS}/run-terraform/workspaces/api-driven-workflow`, text: "API-driven workflow" } },
+];
+
+type RepoFacts = { stars: string; release?: { tag: string; date: string } };
+
+/** Public facts from GitHub, read once at build time; the line is omitted if the API is unreachable. */
+async function repoFacts(): Promise<RepoFacts | null> {
+  const headers: Record<string, string> = { Accept: "application/vnd.github+json" };
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  try {
+    const [repo, release] = await Promise.all([
+      fetch("https://api.github.com/repos/terrakube-io/terrakube", { headers, cache: "force-cache" }).then((r) => (r.ok ? r.json() : null)),
+      fetch("https://api.github.com/repos/terrakube-io/terrakube/releases/latest", { headers, cache: "force-cache" }).then((r) => (r.ok ? r.json() : null)),
+    ]);
+    if (!repo) return null;
+    const stars = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(repo.stargazers_count);
+    const date = release?.published_at
+      ? new Intl.DateTimeFormat("en", { month: "long", day: "numeric", year: "numeric" }).format(new Date(release.published_at))
+      : undefined;
+    return { stars, release: release?.tag_name && date ? { tag: release.tag_name, date } : undefined };
+  } catch {
+    return null;
+  }
+}
+
+const rowSizes = "(min-width: 1248px) 660px, (min-width: 768px) 58vw, calc(100vw - 32px)";
+
+export const dynamic = "force-static";
+
+export default async function Home() {
+  const facts = await repoFacts();
+  return (
+    <>
+      <header className="site-header">
+        <div className="container">
+          <Link className="brand" href="/">
+            <Image src="/img/terrakube.webp" alt="" width={25} height={28} priority />
+            Terrakube
+          </Link>
         </div>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a className="header-button" href="https://docs.terrakube.io/"
-             target="_blank" rel="noopener noreferrer">
-            <Image src="/gitbooklogo.svg" alt="Gitbook" width={20} height={20} />
-            Docs</a>
-          <a className="header-button" href="https://github.com/terrakube-io/terrakube"
-             target="_blank" rel="noopener noreferrer">
-            <Image src="/github-mark-white.svg" alt="Github" width={20} height={20} />
-            Github</a>
-          <a className="header-button" href="https://join.slack.com/t/terrakubeworkspace/shared_invite/zt-2cx6yn95t-2CTBGvsQhBQJ5bfbG4peFg"
-             target="_blank" rel="noopener noreferrer">
-            <Image src="/slack.png" alt="Slack" width={20} height={20} />
-            Slack</a>
-        </div>
-        <HamburgerMenu 
-          links={[
-            {
-              href: "https://docs.terrakube.io/",
-              icon: "/gitbooklogo.svg",
-              alt: "Gitbook",
-              text: "Documentation"
-            },
-            {
-              href: "https://github.com/terrakube-io/terrakube",
-              icon: "/github-mark-white.svg",
-              alt: "Github",
-              text: "Github"
-            },
-            {
-              href: "https://join.slack.com/t/terrakubeworkspace/shared_invite/zt-2cx6yn95t-2CTBGvsQhBQJ5bfbG4peFg",
-              icon: "/slack.png",
-              alt: "Slack",
-              text: "Slack"
-            }
-          ]}
-        />
       </header>
 
-      <main className="flex flex-col gap-8 items-center w-full max-w-7xl mx-auto">
-        {/* ========================================
-            SECCIÓN DECO - HERO DECO
-        ======================================== */}
-        <LogoBackground position="left" logoOpacity={1} logoSize={200} verticalPosition={400} />
-        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition={400} />
-
-        <PatronBackground position="left" logoOpacity={0.4} logoSize={900} verticalPosition={1000} />
-        <PatronBackground position="right" logoOpacity={0.4} logoSize={1200} verticalPosition={2000} />
-
-        {/* ========================================
-            SECCIÓN HERO - HERO SECTION
-        ======================================== */}
-        <div className="hero-section relative-container z-10">
-          <div className="hero-title">
-            <p>The open source platform that helps teams</p>
-            <p>manage their infrastructure as code at scale using</p>
-            <p className="hero-highlight-text">Terraform or OpenTofu.</p>
-          </div>
-          <div className="hero-subtitle">
-            <p>No vendor lock-in, No licensing headache, Self Hosted anywhere</p>
-          </div>
-        </div>
-
-        <hr className="border-t-2 border-gray-300 my-20 w-[400px] mx-auto" />
-
-        {/* ========================================
-            SECCIÓN WHY CHOOSE TERRAKUBE - WHY CHOOSE SECTION
-        ======================================== */}
-        <div className="hero-section">
-          <div className="hero-title text-white">
-            Why Choose{' '}
-            <span className="bg-gradient-to-r from-[#F9A226] to-[#F1613D] bg-clip-text text-transparent">
-              Terrakube
-            </span>
-            ?
-          </div>
-          <div className="hero-subtitle">
-            <p>Everything you need to automate, collaborate, run and manage your infrastructure</p>
-          </div>
-        </div>
-
-        {/* ========================================
-            FEATURE SECTIONS
-        ======================================== */}
-
-        {/* FEATURE - Fully Open Source */}
-        <div className="feature-section">
-          <div className="feature-content">
-            <div className="feature-title ">
-              <p className="feature-highlight-blue">Open Source</p>
-            </div>
-            <div className="feature-description justified">
-              <p>Complete access to the source code and the ability to customize and extend the platform to fit your organization needs
-                 simply by using devcontainers to add functionalities in seconds.
+      <main>
+        <section className="hero">
+          <div className="hero-cluster" aria-hidden="true" />
+          <div className="container">
+            <div className="hero-copy">
+              <h1>Infrastructure as code automation for Terraform and OpenTofu</h1>
+              <p className="lede">
+                The open source platform that runs, reviews and manages infrastructure as code at scale. Terraform and
+                OpenTofu connect to it as a remote backend, so your code stays as it is. Platform teams govern
+                workspaces, access and policies; application engineers plan, apply and read the result.
+              </p>
+              <div className="hero-actions">
+                <a className="btn btn-primary btn-lg" href={`${DOCS}/getting-started/deployment`}>
+                  Get started
+                </a>
+                <a className="btn btn-lg" href="#features">
+                  See how it works
+                </a>
+                <a className="btn btn-lg" href={GITHUB} aria-label={facts ? `GitHub, ${facts.stars} stars` : "GitHub"}>
+                  <span className="gh-mark" aria-hidden="true" />
+                  GitHub
+                  {facts && <span className="btn-count">{facts.stars}</span>}
+                </a>
+              </div>
+              <p className="hero-meta">
+                {facts?.release && (
+                  <>
+                    <a href={`${GITHUB}/releases/latest`}>
+                      Release <code>{facts.release.tag}</code>, {facts.release.date}
+                    </a>
+                    <span aria-hidden="true"> · </span>
+                  </>
+                )}
+                Apache 2.0 licensed
               </p>
             </div>
-            <a
-              className="header-button button-description"
-              href="https://docs.terrakube.io/getting-started/development/dev-container"
-              rel="noopener noreferrer"
-            >
-              Development
-            </a>
-          </div>
-          <div className="feature-image">
-            <Image
-              className="logo"
-              src="/workspace-data.png"
-              alt="terrakube logo"
-              width={800}
-              height={450}
-              priority
-            />
-          </div>
-          <hr className="border-t-2 border-gray-300 w-full mt-8" />
-        </div>
-
-        {/* FEATURE - Terraform & OpenTofu Support */}
-        <div className="feature-section">
-          <div className="feature-image">
-            <Image
-              className="logo"
-              src="/terraform-tofu.png"
-              alt="terrakube logo"
-              width={800}
-              height={450}
-              priority
-            />
-          </div>
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-orange">Terraform & OpenTofu</p>
+            <div className="hero-shot">
+              {/* One run, four moments: the frames crossfade in CSS; reduced motion shows the finished run. */}
+              <div
+                className="frame hero-run"
+                role="img"
+                aria-label="A run moving through its states: queued, waiting for approval with the plan to review, applying, and completed with its outputs"
+              >
+                {heroFrames.map((name, i) => (
+                  <ThemedShot
+                    key={name}
+                    shot={{ src: `/${name}.png`, alt: "", width: 2304, height: 1440 }}
+                    sizes="(min-width: 1248px) 1152px, calc(100vw - 32px)"
+                    priority={i === 0}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="feature-description justified">
-              <p>Support major infrastructure as code tools to handle any
-                 cloud or on-premises configuration in a single place with
-                 multiple teams collaborating together
-              </p>
+          </div>
+        </section>
+
+        <section className="section" id="features">
+          <div className="container">
+            <h2 className="section-title">Everything you need to run infrastructure as code</h2>
+
+            {groups.map((group) => (
+              <div className="group" key={group.title} id={group.title.toLowerCase()}>
+                <div className="group-head">
+                  <h3 className="group-title">{group.title}</h3>
+                  <p className="group-intro">{group.intro}</p>
+                </div>
+
+                {group.features.map((feature) => (
+                  <article className="feature" key={feature.title}>
+                    <div className="feature-copy">
+                      <h4>{feature.title}</h4>
+                      <p>{feature.description}</p>
+                      <a className="doc-link" href={feature.link.href}>
+                        {feature.link.text} ↗
+                      </a>
+                      {feature.extra && (
+                        <>
+                          {feature.extra.description && <p>{feature.extra.description}</p>}
+                          <a className="doc-link" href={feature.extra.link.href}>
+                            {feature.extra.link.text} ↗
+                          </a>
+                        </>
+                      )}
+                    </div>
+                    {feature.image ? (
+                      <div className="frame">
+                        <ThemedShot shot={feature.image} sizes={rowSizes} />
+                      </div>
+                    ) : (
+                      <pre className="code frame" aria-label="Helm install command">
+                        <code>{install}</code>
+                      </pre>
+                    )}
+                  </article>
+                ))}
+
+                {group.compact && (
+                  <div className="cards compact">
+                    {group.compact.map((item) => (
+                      <div className="card" key={item.title}>
+                        <strong>{item.title}</strong>
+                        <span>{item.description}</span>
+                        {item.tags && (
+                          <dl className="tag-groups">
+                            {item.tags.map((group) => (
+                              <div className="tag-group" key={group.label}>
+                                <dt>{group.label}</dt>
+                                <dd>
+                                  <ul className="tags">
+                                    {group.items.map((tag) => (
+                                      <li key={tag}>{tag}</li>
+                                    ))}
+                                  </ul>
+                                </dd>
+                              </div>
+                            ))}
+                          </dl>
+                        )}
+                        <a className="doc-link" href={item.link.href}>
+                          {item.link.text} ↗
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
+          </div>
+        </section>
+
+        <section className="section" id="how-it-fits">
+          <div className="container">
+            <h2 className="section-title">How it fits into your setup</h2>
+            <ol className="steps">
+              {steps.map((step, i) => (
+                <li key={step.title}>
+                  <span className="step-index">{String(i + 1).padStart(2, "0")}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section className="section" id="docs">
+          <div className="container">
+            <h2 className="section-title">Start with the documentation</h2>
+            <p className="section-intro">Everything on this page is documented end to end. Pick where you are.</p>
+            <div className="docs-grid">
+              {docs.map((entry) => (
+                <div className="docs-entry" key={entry.title}>
+                  <h3>{entry.title}</h3>
+                  <p>{entry.text}</p>
+                  <a className="doc-link" href={entry.href}>
+                    {entry.link} ↗
+                  </a>
+                  {entry.second && (
+                    <a className="doc-link" href={entry.second.href}>
+                      {entry.second.text} ↗
+                    </a>
+                  )}
+                </div>
+              ))}
             </div>
-            <a
-              className="header-button"
-              href="https://docs.terrakube.io/user-guide/workspaces/creating-workspaces"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Workspaces
-            </a>
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
-
-        {/* ========================================
-            SECCIÓN DECO - HERO DECO
-        ======================================== */}
-        <LogoBackground position="left" logoOpacity={1} logoSize={330} verticalPosition={2500} />
-
-        <PointBackground position="left" logoOpacity={1} logoSize={90} verticalPosition={3100} />
-
-        {/* FEATURE - Single Sign-On (SSO) */}
-        <div className="feature-section">
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-blue">Single Sign-On</p>
+            <div className="hero-actions">
+              <a className="btn btn-primary btn-lg" href={`${DOCS}/getting-started/deployment`}>
+                Get started
+              </a>
             </div>
-            <div className="feature-description ulista justified">
-              <p>Supports a wide range of identity providers allowing Terrakube to authenticate using any of the following services:</p>
-              <ul>
-                <li>Azure Entra ID</li>
-                <li>Google Cloud Identity</li>
-                <li>Amazon Cognito</li>
-              </ul>
-              <ul>
-                <li>GitHub</li>
-                <li>Keycloak</li>
-                <li>OIDC, SAML, etc.</li>
-              </ul>
+          </div>
+        </section>
+
+        <section className="section" id="sponsors">
+          <div className="container">
+            <h2 className="section-title">Supported by</h2>
+            <p className="section-intro">These organizations support the project with free licenses and services.</p>
+            <div className="sponsors">
+              {sponsors.map((sponsor) => (
+                <Image key={sponsor.src} src={sponsor.src} alt={sponsor.alt} width={sponsor.width} height={sponsor.height} />
+              ))}
             </div>
-            <a
-                className="header-button"
-                href="https://docs.terrakube.io/getting-started/user-management"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-              User management
-            </a>
           </div>
-          <div className="feature-image">
-            <Image
-                className="logo"
-                src="/login.png"
-                alt="terrakube logo"
-                width={800}
-                height={450}
-                priority
-            />
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
+        </section>
 
-        {/* FEATURE - ROLE BASED ACCESS CONTROL*/}
-        <div className="feature-section">
-          <div className="feature-image">
-            <Image
-                className="logo"
-                src="/rbac.png"
-                alt="terrakube logo"
-                width={800}
-                height={450}
-                priority
-            />
-          </div>
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-orange">Access control</p>
+        <section className="section" id="support">
+          <div className="container">
+            <h2 className="section-title">Support the project</h2>
+            <div className="cards">
+              {support.map((item) => (
+                <a className="card card-link" key={item.href} href={item.href}>
+                  <strong>{item.title}</strong>
+                  <span>{item.text}</span>
+                  <span className="doc-link">{item.link} ↗</span>
+                </a>
+              ))}
             </div>
-            <div className="feature-description ulista justified">
-              <p>Restricts access based on a user&#39;s roles within an organization.
-                Assigns permissions according to job responsibilities,
-                ensuring only access to necessary information this also includes the ability to create and manage:
-              </p>
-              <ul>
-                <li>Personal access tokens</li>
-                <li>Team tokens</li>
-              </ul>
-            </div>
-            <a
-                className="header-button"
-                href="https://docs.terrakube.io/user-guide/organizations/team-management"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-              Roles management
-            </a>
           </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
+        </section>
 
-        {/* FEATURE - Private Module/Provider Registry */}
-        <div className="feature-section">
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-blue feature-title_espe">Private Registry</p>
-            </div>
-            <div className="feature-description justified">
-              <p>Allow your teams to collaborate, reuse, manage and publish internal modules and providers privately</p>
-            </div>
-            <a
-              className="header-button"
-              href="https://docs.terrakube.io/user-guide/private-registry"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Setup
-            </a>
-          </div>
-          <div className="feature-image">
-            <Image
-              className="logo"
-              src="/registry.png"
-              alt="terrakube logo"
-              width={800}
-              height={450}
-              priority
-            />
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
-
-        {/* FEATURE - Self-Hosted & Ephemeral Agents */}
-        <div className="feature-section">
-          <div className="feature-image">
-            <Image
-              className="logo"
-              src="/agents.png"
-              alt="terrakube logo"
-              width={800}
-              height={450}
-              priority
-            />
-          </div>
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-orange">Private Agents</p>
-            </div>
-            <div className="feature-description  justified">
-                <p>Support creating unlimited self-hosted or ephemeral agents.
-                    These agents run workflows in a secure and isolated environment
-                    allowing you to keep control over your infrastructure.
-                </p>
-            </div>
-            <a
-              className="header-button"
-              href="https://docs.terrakube.io/getting-started/deployment/ephemeral-agents"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ephemeral agents
-            </a>
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
-
-        {/* FEATURE - Dynamic Credentials */}
-        <div className="feature-section">
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-blue">Dynamic Credentials</p>
-            </div>
-            <div className="feature-description ulista  justified">
-              <p>Automates the process of authenticating with cloud providers or external services.
-                It eliminates the need to use and manage long-lived, static credentials in your workspaces.
-                Currently the following providers are supported:
-              </p>
-              <ul>
-                <li>Azure</li>
-                <li>Google Cloud</li>
-                <li>Amazon Web Service</li>
-              </ul>
-              <ul>
-                <li>Vault</li>
-                <li>Openbao</li>
-              </ul>
-            </div>
-            <a
-                className="header-button"
-                href="https://docs.terrakube.io/user-guide/workspaces/dynamic-provider-credentials"
-                rel="noopener noreferrer"
-            >
-               Authentication
-            </a>
-          </div>
-          <div className="feature-image">
-            <Image
-                className="logo"
-                src="/execution.png"
-                alt="terrakube logo"
-                width={800}
-                height={450}
-                priority
-            />
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
-
-        {/* ========================================
-            SECCIÓN DECO - HERO DECO
-        ======================================== */}
-        <LogoBackground position="right" logoOpacity={1} logoSize={210} verticalPosition={2600} />
-        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition={3300} />
-
-        <PatronBackground position="left" logoOpacity={0.4} logoSize={1200} verticalPosition={4000} />
-
-        {/* FEATURE - Visual Terraform State Viewer */}
-        <div className="feature-section">
-          <div className="feature-image">
-            <Image
-                className="logo"
-                src="/visual-state.png"
-                alt="terrakube logo"
-                width={800}
-                height={450}
-                priority
-            />
-          </div>
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-orange">Visual state</p>
-            </div>
-            <div className="feature-description justified">
-              <p>See all resources in your infrastructure as code and check the state file with a single click</p>
-            </div>
-            <a
-                className="header-button"
-                href="https://docs.terrakube.io/user-guide/workspaces/terraform-state#visual-state"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-              Documentation
-            </a>
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
-
-        {/* FEATURE - Custom Workflows Integration */}
-        <div className="feature-section">
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-blue">Custom workflows</p>
-            </div>
-            <div className="feature-description ulista  justified">
-              <p>Create simple or complex workflows to automate your infrastructure management using external tools.
-              </p>
-            </div>
-            <a
-                className="header-button"
-                href="https://docs.terrakube.io/user-guide/organizations/templates"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-              Documentation
-            </a>
-          </div>
-          <div className="feature-image">
-            <Image
-                className="logo"
-                src="/custom-integration.png"
-                alt="terrakube logo"
-                width={800}
-                height={450}
-                priority
-            />
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
-
-        {/* ========================================
-            SECCIÓN DECO - HERO DECO
-        ======================================== */}
-
-        <LogoBackground position="left" logoOpacity={1} logoSize={300} verticalPosition={6000} />
-
-        {/* FEATURE - Scheduled jobs */}
-        <div className="feature-section">
-          <div className="feature-image">
-            <Image
-                className="logo"
-                src="/schedules.png"
-                alt="terrakube logo"
-                width={800}
-                height={450}
-                priority
-            />
-          </div>
-          <div className="feature-content">
-            <div className="feature-title">
-              <p className="feature-highlight-orange">Scheduled jobs</p>
-            </div>
-            <div className="feature-description justified">
-              <p>Define your own schedules to execute different workflow operation automatically without any manual intervention</p>
-            </div>
-            <a
-                className="header-button"
-                href="https://docs.terrakube.io/user-guide/workspaces/workspace-scheduler"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-              Setup schedules
-            </a>
-          </div>
-          <hr className="border-t-2 border-gray-300  w-full mx-auto" />
-        </div>
-
-        {/* ========================================
-            SECCIÓN DECO - HERO DECO
-        ======================================== */}
-        <LogoBackground position="right" logoOpacity={1} logoSize={300} verticalPosition={4400} />
-
-        <PointBackground position="right" logoOpacity={1} logoSize={90} verticalPosition={5200} />
-
-        <PatronBackground position="right" logoOpacity={0.2} logoSize={1200} verticalPosition={6800} />
-        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition={7400} />
-
-        {/* FEATURE - Multi-Cloud & On-Premises Support */}
-        <div className="feature-section">
-          <div className="feature-content">
-            <div className="feature-title feature-title_espe">
-              <p className="feature-highlight-blue">Self-hosted Anywhere</p>
-            </div>
-            <div className="feature-description  justified">
-              <p>Install it in a kubernetes cluster
-                 using any cloud provider or on-premises infrastructure,
-                 you can also run it using simply using docker compose
-              </p>
-            </div>
-            <a
-              className="header-button"
-              href="https://docs.terrakube.io/getting-started/deployment/minikube-+-https"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Quick deployment
-            </a>
-          </div>
-          <div className="feature-image">
-            <Image
-              className="logo"
-              src="/workspaces.png"
-              alt="deployment logo"
-              width={800}
-              height={450}
-              priority
-            />
-          </div>
-        </div>
-
-        <hr className="border-t-2 border-gray-300 w-[300px] mx-auto my-40" />
-
-        {/* ========================================
-            SECCIÓN TRUSTED BY - TRUSTED BY SECTION
-        ======================================== */}
-        <div className="section-header">
-          <div className="section-title">
-            <p>Trusted by Open Source Supporters</p>
-          </div>
-          <p className="feature-description ">Thanks to the following organizations for supporting us with free licenses and services.</p>
-        </div>
-
-        {/* SPONSORS LOGOS */}
-        <div className="sponsors-ribbon">
-          <div className="sponsors-container">
+        <section className="community" id="community">
+          <div className="container">
             <div>
-              <Image
-                src="/jetbrains.png"
-                alt="jetbrains logo"
-                width={155}
-                height={33}
-                priority
-              />
+              <h2>Open source, by engineers for engineers</h2>
+              <p>
+                Whether you are fixing bugs, adding features, improving the docs or sharing feedback, your input makes a
+                difference.
+              </p>
+              <a className="btn btn-lg" href={SLACK}>
+                <Image src="/img/slack.webp" alt="" width={16} height={16} />
+                Join us on Slack
+              </a>
             </div>
             <div>
-              <Image
-                src="/gitbook.png"
-                alt="gitbook logo"
-                width={155}
-                height={33}
-                priority
-              />
-            </div>
-            <div>
-              <Image
-                src="/docker.png"
-                alt="docker logo"
-                width={155}
-                height={33}
-                priority
-              />
-            </div>
-            <div>
-              <Image
-                src="/tuta.png"
-                alt="tuta logo"
-                width={120}
-                height={31}
-                priority
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* ========================================
-            SECCIÓN DECO - HERO DECO
-        ======================================== */}
-        <LogoBackground position="left" logoOpacity={1} logoSize={400} verticalPosition={8000} />
-
-        <PatronBackground position="left" logoOpacity={0.2} logoSize={1500} verticalPosition={8000} />
-
-        {/* ========================================
-            SECCIÓN SUPPORT THE PROJECT - SUPPORT SECTION
-        ======================================== */}
-        <div className="section-header">
-          <div className="section-title">
-            <p>Support the Project</p>
-          </div>
-          <div className="section-heade-sub">
-              <p className="feature-description">Terrakube is powered by the community.</p>
-          </div>
-        </div>
-
-        {/* SUPPORT BUTTONS */}
-        <div className="support-buttons-container">
-          <a
-            className="support-button"
-            href="https://github.com/sponsors/terrakube-io"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            💖 Sponsor us on GitHub
-          </a>
-          <a
-            className="support-button"
-            href="https://opencollective.com/terrakube"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            🌐 Terrakube on Open Collective
-          </a>
-          <a
-            className="support-button"
-            href="mailto:sponsor@terrakube.io"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            📬 mail: sponsor@terrakube.io
-          </a>
-        </div>
-
-        <hr className="border-t-2 border-gray-300  w-[200px] mx-auto my-20" />
-
-        <LogoBackground position="right" logoOpacity={1} logoSize={200} verticalPosition={8600} />
-
-        {/* ========================================
-            SECCIÓN JOIN COMMUNITY - COMMUNITY SECTION
-        ======================================== */}
-        <div className="community-section">
-          <div className="community-content-wrapper">
-            <div className="community-left-content">
-              <p>Join Our <span className="community-highlight">Community</span></p>
-              <p>Whether you&apos;re fixing bugs, adding features, improving docs, or providing feedback, your input makes a difference. Lets make Terrakube great together</p>
-              <a className="header-button" href="https://join.slack.com/t/terrakubeworkspace/shared_invite/zt-2cx6yn95t-2CTBGvsQhBQJ5bfbG4peFg"
-                target="_blank" rel="noopener noreferrer">
-                <Image src="/slack.png" alt="Slack" width={20} height={20} />
-                Join our Slack</a>
-            </div>
-            <div className="community-right-content">
-              <h3>Get Involved</h3>
-              <ul className="community-benefits-list">
-                <li>Join GitHub discussions to share ideas</li>
-                <li>Open issues for bugs or feature suggestions</li>
-                <li>Participate in our slack community</li>
-                <li>Test deployment in different cloud providers</li>
+              <h3>Get involved</h3>
+              <ul>
+                {involved.map((item) => (
+                  <li key={item.href}>
+                    <a href={item.href}>{item.text}</a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
-        </div>
+        </section>
       </main>
-    </div>
+
+      <footer className="site-footer">
+        <div className="container">
+          <span>
+            Terrakube is an open source project licensed under{" "}
+            <a href={`${GITHUB}/blob/main/LICENSE`}>Apache 2.0</a>.
+          </span>
+          <nav aria-label="Footer">
+            <a href={`${GITHUB}/releases`}>Releases</a>
+            <a href={`${GITHUB}/blob/main/SECURITY.md`}>Security policy</a>
+          </nav>
+        </div>
+      </footer>
+    </>
   );
 }
