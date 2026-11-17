@@ -143,10 +143,47 @@ img {
 .site-header .container {
   display: flex;
   align-items: center;
+  gap: 16px;
   height: 56px;
 }
 
-/* The GitHub mark in the hero button, tinted with the button text so it follows the theme. */
+/* Slack and GitHub sit at the right of the header on every page width, on the graphite frame. */
+.header-links {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.header-links .btn {
+  height: 36px;
+  padding: 0 12px;
+  background: var(--tk-graphite-elevated);
+  border-color: var(--tk-graphite-border);
+  color: var(--tk-ink-dark);
+}
+
+.header-links .btn:hover {
+  border-color: var(--tk-accent-hover);
+  background: var(--tk-graphite-hover);
+}
+
+/* On phones the words give way to the marks, so the brand keeps its room; the labels stay in aria-label. */
+@media (max-width: 479px) {
+  .header-label {
+    display: none;
+  }
+  .header-links .btn {
+    min-width: 44px;
+  }
+}
+
+.header-links .btn-count {
+  color: var(--tk-ink-dark-secondary);
+  /* The dark-scheme link violet: the light one is too dim on graphite. */
+  --tk-flash: #b37feb;
+}
+
+/* The GitHub mark in the header button, tinted with the button text so it follows the theme. */
 .gh-mark {
   width: 18px;
   height: 18px;
@@ -156,8 +193,27 @@ img {
 }
 
 .btn-count {
+  display: inline-block;
   color: var(--tk-text-secondary);
   font-variant-numeric: tabular-nums;
+}
+
+/* A star or release that arrived while the page was open: the new value rises in and glows once. */
+@media (prefers-reduced-motion: no-preference) {
+  .btn-count.is-updated {
+    animation: count-in 400ms cubic-bezier(0.2, 0, 0, 1) both, flash-link 2400ms ease-out both;
+  }
+  .hero-meta a.is-updated {
+    animation: flash-link 2400ms ease-out both;
+  }
+}
+
+@keyframes count-in {
+  from { transform: translateY(0.6em); opacity: 0; }
+}
+
+@keyframes flash-link {
+  from, 30% { color: var(--tk-flash, var(--tk-link)); }
 }
 
 .brand {

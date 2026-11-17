@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { GitHubButton, ReleaseLine, type RepoFacts } from "./repo-facts";
 
 type Shot = { src: string; alt: string; width: number; height: number };
 
@@ -201,9 +202,7 @@ const docs = [
   { title: "Drive it from code", text: "A CLI for day-to-day work and an API for everything else.", href: `${DOCS}/integrate/terrakube-cli`, link: "Terrakube CLI", second: { href: `${DOCS}/run-terraform/workspaces/api-driven-workflow`, text: "API-driven workflow" } },
 ];
 
-type RepoFacts = { stars: string; release?: { tag: string; date: string } };
-
-/** Public facts from GitHub, read once at build time; the line is omitted if the API is unreachable. */
+/** Public facts from GitHub at build time; the page then keeps them current in the browser (repo-facts.tsx). */
 async function repoFacts(): Promise<RepoFacts | null> {
   const headers: Record<string, string> = { Accept: "application/vnd.github+json" };
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
@@ -213,11 +212,10 @@ async function repoFacts(): Promise<RepoFacts | null> {
       fetch("https://api.github.com/repos/terrakube-io/terrakube/releases/latest", { headers, cache: "force-cache" }).then((r) => (r.ok ? r.json() : null)),
     ]);
     if (!repo) return null;
-    const stars = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(repo.stargazers_count);
-    const date = release?.published_at
-      ? new Intl.DateTimeFormat("en", { month: "long", day: "numeric", year: "numeric" }).format(new Date(release.published_at))
-      : undefined;
-    return { stars, release: release?.tag_name && date ? { tag: release.tag_name, date } : undefined };
+    return {
+      stars: repo.stargazers_count,
+      release: release?.tag_name && release?.published_at ? { tag: release.tag_name, publishedAt: release.published_at } : undefined,
+    };
   } catch {
     return null;
   }
@@ -237,6 +235,13 @@ export default async function Home() {
             <Image src="/img/terrakube.webp" alt="" width={25} height={28} priority />
             Terrakube
           </Link>
+          <nav className="header-links" aria-label="Community">
+            <a className="btn" href={SLACK} aria-label="Join us on Slack">
+              <Image src="/img/slack.webp" alt="" width={16} height={16} />
+              <span className="header-label">Slack</span>
+            </a>
+            <GitHubButton initial={facts} />
+          </nav>
         </div>
       </header>
 
@@ -258,21 +263,9 @@ export default async function Home() {
                 <a className="btn btn-lg" href="#features">
                   See how it works
                 </a>
-                <a className="btn btn-lg" href={GITHUB} aria-label={facts ? `GitHub, ${facts.stars} stars` : "GitHub"}>
-                  <span className="gh-mark" aria-hidden="true" />
-                  GitHub
-                  {facts && <span className="btn-count">{facts.stars}</span>}
-                </a>
               </div>
               <p className="hero-meta">
-                {facts?.release && (
-                  <>
-                    <a href={`${GITHUB}/releases/latest`}>
-                      Release <code>{facts.release.tag}</code>, {facts.release.date}
-                    </a>
-                    <span aria-hidden="true"> · </span>
-                  </>
-                )}
+                <ReleaseLine initial={facts} />
                 Apache 2.0 licensed
               </p>
             </div>
